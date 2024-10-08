@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT NeuroNet!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>CT NeuroNet!</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Classify CT Scans with AI</h2>
+            <p>Upload your CT scan images to get instant classifications.</p>
+            <button onclick="scrollToUpload()">Get Started</button>
+        </section>
+
+        <section id="upload" class="upload-section">
+            <h3>Upload Your CT Scan</h3>
+            <input type="file" id="imageUpload" accept="image/png, image/jpeg">
+            <button onclick="uploadImage()">Upload</button>
+            <p>Accepted formats: PNG, JPEG</p>
+        </section>
+
+        <div id="loading" class="loading" style="display:none;">
+            <p>Processing your image...</p>
+        </div>
+
+        <section id="results" class="results" style="display:none;">
+            <h3>Results</h3>
+            <img id="uploadedImage" alt="Uploaded CT Scan">
+            <p id="predictedClass"></p>
+            <p id="confidenceScore"></p>
+        </section>
+
+        <section class="feedback">
+            <h3>Feedback</h3>
+            <form id="feedbackForm">
+                <textarea placeholder="Your feedback..."></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
