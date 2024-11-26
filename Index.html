@@ -5,11 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
     <style>
+	
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: #f0f0f0;
         }
+	  .slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  .mySlides {
+    display: none;
+    position: relative;
+  }
+
+  .fade {
+    animation: fade 1.5s ease-in-out;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  img {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+  }
+
+  .prev {
+    left: 0;
+  }
+
+  .next {
+    right: 0;
+  }
+
+  .text {
+    color: #fefcce;
+    font-size: 18px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+
+  .dot.active {
+    background-color: #717171;
+  }
         .header {
             display: flex;
             align-items: center;
@@ -74,6 +149,37 @@
     <h1 style="color: #fefcce;">CT-NeuroNet</h1>
     <p style="color: #fefcce;">COVID-19 Detector</p>
   </div>
+</div>
+
+<div class="slideshow-container">
+
+  <!-- Slides -->
+  <div class="mySlides fade">
+    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image1.jpg" style="width:100%">
+    <div class="text">Slide 1</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image2.jpg" style="width:100%">
+    <div class="text">Slide 2</div>
+  </div>
+
+  <div class="mySlides fade">
+    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image3.jpg" style="width:100%">
+    <div class="text">Slide 3</div>
+  </div>
+
+  <!-- Next and Previous Buttons -->
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+</div>
+
+<!-- Dots/Indicators -->
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span>
+  <span class="dot" onclick="currentSlide(2)"></span>
+  <span class="dot" onclick="currentSlide(3)"></span>
 </div>
 
 <style>
@@ -203,42 +309,34 @@
 </div>
 
 <script>
-    const fileInput = document.getElementById('file-input');
-    const preview = document.getElementById('image-preview');
+  let slideIndex = 0;
+  showSlides();
 
-    // Image preview
-    fileInput.addEventListener('change', function() {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
+  function showSlides() {
+    let slides = document.querySelectorAll(".mySlides");
+    let dots = document.querySelectorAll(".dot");
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    setTimeout(showSlides, 5000); // Change image every 5 seconds
+  }
 
-        reader.onload = function(event) {
-            preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
-        };
+  function plusSlides(n) {
+    showSlides((slideIndex += n));
+  }
 
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.innerHTML = "";
-        }
-    });
-
-    // Handle form submission
-    document.getElementById('upload-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('image', fileInput.files[0]);
-
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        }).then(response => response.json())
-          .then(data => {
-              alert('Image uploaded successfully!');
-          })
-          .catch(error => {
-              alert('Error uploading image');
-          });
-    });
+  function currentSlide(n) {
+    showSlides((slideIndex = n));
+  }
 </script>
 
 </body>
