@@ -3,98 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload</title>
+    <title>Image Upload - CT-NeuroNet</title>
     <style>
-	
+        /* Global Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #ffffff; /* White background */
+            line-height: 1.6;
+            color: #333; /* Dark text for readability */
         }
-	  .slideshow-container {
-    position: relative;
-    max-width: 100%;
-    margin: auto;
-  }
 
-  .mySlides {
-    display: none;
-    position: relative;
-  }
+        h1, h2, p {
+            margin: 0 0 20px;
+            color: #333;
+        }
 
-  .fade {
-    animation: fade 1.5s ease-in-out;
-  }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
 
-  @keyframes fade {
-    from {
-      opacity: 0.4;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+        a:hover {
+            text-decoration: underline;
+        }
 
-  img {
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-  }
-
-  .prev {
-    left: 0;
-  }
-
-  .next {
-    right: 0;
-  }
-
-  .text {
-    color: #fefcce;
-    font-size: 18px;
-    position: absolute;
-    bottom: 8px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-  }
-
-  .dot.active {
-    background-color: #717171;
-  }
+        /* Header Styles */
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 60px;
-            background: #252525;
-            color: #fefcce;
+            background-color: #252525; /* Dark background for contrast */
+            color: #fefcce; /* Light text color */
             font-size: 30px;
             position: relative;
+            text-align: center;
         }
+
         .header img {
             position: absolute;
             top: 20px;
@@ -102,242 +48,285 @@
             width: 100px;
             height: auto;
         }
+
+        /* Make the title text gold */
+        .header h1 {
+            color: #fefcce; /* Gold color */
+        }
+
+        /* Make the subtitle text gold */
+        .header p {
+            color: #fefcce; /* Gold color */
+        }
+
+        /* Main Content Styles */
         .content {
             display: flex;
             justify-content: space-between;
             padding: 40px;
-            background: #252525;
+            background-color: #ffffff; /* White background for content */
         }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto; /* Auto margins to center the container */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center the text */
+        }
+
+        /* Center the title inside .container */
+        .container h1 {
+            color: #252525; /* Dark color for the heading */
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify; /* Optional: Adds justified alignment to the paragraph text */
+        }
+
         .how-it-works, .contact-us {
             width: 48%;
             padding: 20px;
-            background: #252525;
-            color: #fefcce;
+            background-color: #fefcce; /* Light background for these sections */
+            color: #333; /* Dark text for readability */
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .how-it-works h2, .contact-us h2 {
             text-align: center;
+            color: #252525; /* Dark text color for headers */
         }
+
+        .how-it-works p, .contact-us p {
+            color: #333;
+        }
+
+        /* Image Upload Section */
         .upload-container {
-            background-color: white;
+            background-color: #f8f5f5; /* White background for upload container */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 500px;
             margin: 40px auto;
-        }
-        .upload-container h2 {
             text-align: center;
         }
+
+        .upload-container h2 {
+            color: #333;
+        }
+
         .upload-container input[type="file"] {
             display: block;
             margin: 20px auto;
         }
+
         .preview img {
             max-width: 100%;
             max-height: 300px;
+            border-radius: 8px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #fefcce;
+            color: rgb(10, 9, 9);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 30%;
+        }
+
+        .button-container button:hover {
+            background-color: #02612e;
+        }
+
+        /* Container for content inside .how-it-works section */
+        .left-stanza p {
+            color: #333;
+        }
+
+        /* Contact List Styles */
+        .contact-us ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .contact-us li {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .how-it-works, .contact-us {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button-container button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
+
 <body>
-
-<div class="header">
-  <img src="C:\Users\Owner\Documents\College\Project Website\CTNeuroNetLogo.png" alt="CT-NeuroNet Logo">
-  <div style="text-align: center; width: 100%;">
-    <h1 style="color: #fefcce;">CT-NeuroNet</h1>
-    <p style="color: #fefcce;">COVID-19 Detector</p>
-  </div>
-</div>
-
+    <div class="header">
+        <img src="CTNeuroNetLogo.png" alt="CT-NeuroNet Logo">
+        <div>
+            <h1>CT-NeuroNet</h1>
+            <p>COVID-19 Detector</p>
+        </div>
+    </div>
 <div class="slideshow-container">
+        <div class="slides fade">
+            <img src="image1.jpg" style="width:100%" style="height:100%" alt="Slide 1">
+        </div>
+        <div class="slides fade">
+            <img src="image2.jpg" style="width:100%" style="height:100%" alt="Slide 2">
+        </div>
+        <div class="slides fade">
+            <img src="image3.jpg" style="width:100%" style="height:100%" alt="Slide 3">
+        </div>
+    </div>
 
-  <!-- Slides -->
-  <div class="mySlides fade">
-    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image1.jpg" style="width:100%">
-    <div class="text">Slide 1</div>
-  </div>
+    <div class="container">
+        <h1>CT-NeuroNet Overview</h1>
+        <p>
+            CT-NeuroNet is an innovative application designed to analyze CT scans for COVID-19 detection using a sophisticated convolutional neural network (CNN) model. 
+            Aimed at assisting healthcare professionals, this system provides reliable and efficient test results, allowing users to quickly access critical information. 
+            With its user-friendly interface, CT-NeuroNet ensures peace of mind for individuals seeking clarity during uncertain times.
+        </p>
+        <p>
+            The application enables users to upload their CT images and receive immediate results, making it a valuable tool for timely health assessments. The platform is built to cater to reputable health organizations, ensuring that results are monitored and verified. Ideally offered free of charge, CT-NeuroNet prioritizes affordability and user privacy, ensuring that sensitive health information is securely handled.
+        </p>
+        <p>
+            In addition to its core functionality, CT-NeuroNet features a comprehensive interface that includes a Home page for easy navigation, an About page detailing the product’s origins and development team, and a Contact page for user inquiries. By integrating advanced technology with a focus on user experience, CT-NeuroNet aims to empower individuals and healthcare providers in the ongoing fight against COVID-19 and future health crises.
+        </p>
+    </div>
 
-  <div class="mySlides fade">
-    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image2.jpg" style="width:100%">
-    <div class="text">Slide 2</div>
-  </div>
-
-  <div class="mySlides fade">
-    <img src="C:\Users\Owner\Documents\College\Project Website - Copy\image3.jpg" style="width:100%">
-    <div class="text">Slide 3</div>
-  </div>
-
-  <!-- Next and Previous Buttons -->
-  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-</div>
-
-<!-- Dots/Indicators -->
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-</div>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 20px;
-        background-color: #f9f9f9;
-    }
-    .container {
-        max-width: 800px;
-        margin: auto;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-    p {
-        margin: 15px 0;
-        color: #555;
-    }
-</style>
-</head>
-<body>
-<div class="container">
-    <h1>CT-NeuroNet Overview</h1>
-    <p>
-        CT-NeuroNet is an innovative application designed to analyze CT scans for COVID-19 detection using a sophisticated convolutional neural network (CNN) model. 
-        Aimed at assisting healthcare professionals, this system provides reliable and efficient test results, allowing users to quickly access critical information. 
-        With its user-friendly interface, CT-NeuroNet ensures peace of mind for individuals seeking clarity during uncertain times.
-    </p>
-    <p>
-        The application enables users to upload their CT images and receive immediate results, making it a valuable tool for timely health assessments. The platform is built to cater to reputable health organizations, ensuring that results are monitored and verified. Ideally offered free of charge, CT-NeuroNet prioritizes affordability and user privacy, ensuring that sensitive health information is securely handled.
-    </p>
-    <p>
-        In addition to its core functionality, CT-NeuroNet features a comprehensive interface that includes a Home page for easy navigation, an About page detailing the product’s origins and development team, and a Contact page for user inquiries. By integrating advanced technology with a focus on user experience, CT-NeuroNet aims to empower individuals and healthcare providers in the ongoing fight against COVID-19 and future health crises.
-    </p>
-</div>
-</body>
-
-<div class="content">
-    <div class="how-it-works">
-        <h2>How It Works:</h2>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                line-height: 1.6;
-                margin: 20px;
-                background-color: #f9f9f9;
-            }
-            .container {
-                max-width: 800px;
-                margin: auto;
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            h1 {
-                text-align: center;
-                color: #333;
-            }
-            .left-stanza {
-                text-align: left;
-                color: #555;
-                margin: 15px 0;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>How to Use CT-NeuroNet</h1>
+    <!-- Main Content Section -->
+    <div class="content">
+        <!-- How It Works Section -->
+        <div class="how-it-works">
+            <h2>How It Works:</h2>
             <div class="left-stanza">
-                <p>
-                    To get started, navigate to the Home page of the CT-NeuroNet application. Here, you'll find a "Get Started" button that provides a brief overview of the uploading process. Follow the instructions to understand how to submit your CT scan images.
-                </p>
-                <p>
-                    Next, select your CT image file by clicking the "Choose File" button. Once you have selected the appropriate file, click the "Upload" button to submit it for analysis. The system will process your image and provide results based on the trained CNN model.
-                </p>
-                <p>
-                    After processing, you'll be redirected to the Results page, where your COVID-19 test outcome will be displayed. If you wish to upload another image, you can do so by clicking the "Resubmit" button. Additionally, you can view your past results by selecting the "View History" option.
-                </p>
-                <p>
-                    For any questions or feedback, head over to the Contact page. There, you can fill out a simple form to reach out to our team, ensuring your experience is both informative and supportive.
-                </p>
+                <p>To get started, navigate to the Home page of the CT-NeuroNet application. Here, you'll find a "Get Started" button that provides a brief overview of the uploading process. Follow the instructions to understand how to submit your CT scan images.</p>
+                <p>Next, select your CT image file by clicking the "Choose File" button. Once you have selected the appropriate file, click the "Upload" button to submit it for analysis. The system will process your image and provide results based on the trained CNN model.</p>
+                <p>After processing, you'll be redirected to the Results page, where your COVID-19 test outcome will be displayed. If you wish to upload another image, you can do so by clicking the "Resubmit" button. Additionally, you can view your past results by selecting the "View History" option.</p>
+                <p>For any questions or feedback, head over to the Contact page. There, you can fill out a simple form to reach out to our team, ensuring your experience is both informative and supportive.</p>
             </div>
         </div>
-    </body>
+
+        <!-- Contact Us Section -->
+        <div class="contact-us">
+            <h2>Contact Us:</h2>
+            <p>If you have any questions, feel free to reach out:</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:meagbogl@aggies.ncat.edu">meagbogl@aggies.ncat.edu</a></li>
+                <li><strong>Phone:</strong> <a href="tel:+13363347500">+1 (336) 334-7500</a></li>
+                <li><strong>Email:</strong> <a href="mailto:jpowell@aggies.ncat.edu">jpowell@aggies.ncat.edu</a></li>
+                <li><strong>Phone:</strong> <a href="tel:+13363347500">+1 (336) 334-7500</a></li>
+                <li><strong>Email:</strong> <a href="mailto:jtruff@aggies.ncat.edu">jtruff@aggies.ncat.edu</a></li>
+                <li><strong>Phone:</strong> <a href="tel:+13363347500">+1 (336) 334-7500</a></li>
+                <li><strong>For More Information:</strong> <a href="https://easychair.org/publications/paper/FzLP">More Information!</a></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="contact-us">
-        <h2>Contact Us:</h2>
-        <p style="color: #fefcce;">If you have any questions, feel free to reach out:</p>
-        <ul>
-            <li>
-                <strong>Email:</strong> <a href="mailto:example@example.com">Meagbogl@aggies.ncat.edu</a>
-            </li>
-            <li>
-                <strong>Phone:</strong> <a href="tel:+1234567890">+1 (336) 334-7500</a>
-            </li>
-            <li></li>
-                <strong>Email:</strong> <a href="mailto:example@example.com">jpowell@aggies.ncat.edu</a>
-            </li>
-            <li>
-                <strong>Phone:</strong> <a href="tel:+1234567890">+1 (336) 334-7500</a>
-            </li><li></li>
-                <strong>Email:</strong> <a href="mailto:example@example.com">jtruff@aggies.ncat.edu</a>
-            </li>
-            <li>
-                <strong>Phone:</strong> <a href="tel:+1234567890">+1 (336) 334-7500</a>
-            </li>
-        </ul>
+    <!-- Image Upload Section -->
+    <div class="upload-container">
+        <h2>Upload Your CT Image</h2>
+        <form id="upload-form">
+            <input type="file" id="file-input" accept="image/*">
+            <div id="image-preview" class="preview"></div>
+        </form>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <button id="upload-btn">Upload</button>
+            <button id="view-history-btn">View History</button>
+            <button id="resubmit-btn">Resubmit</button>
+            <button id="results-btn">Results</button>
+        </div>
     </div>
-</div>
 
-<div class="upload-container">
-    <h2>Upload an Image</h2>
-    <form id="upload-form" enctype="multipart/form-data">
-        <input type="file" id="file-input" accept="image/*">
-        <div class="preview" id="image-preview"></div>
-        <button type="submit">Upload</button>
-    </form>
-</div>
+    <!-- JavaScript for File Preview -->
+    <script>
+let slideIndex = 0;
 
-<script>
-  let slideIndex = 0;
-  showSlides();
+        // Show initial slide
+        showSlides();
 
-  function showSlides() {
-    let slides = document.querySelectorAll(".mySlides");
-    let dots = document.querySelectorAll(".dot");
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {
-      slideIndex = 1;
-    }
-    for (let i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    setTimeout(showSlides, 5000); // Change image every 5 seconds
-  }
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("slides");
 
-  function plusSlides(n) {
-    showSlides((slideIndex += n));
-  }
+            // Hide all slides
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
 
-  function currentSlide(n) {
-    showSlides((slideIndex = n));
-  }
-</script>
+            // Increment slide index
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+
+            // Display the current slide
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 7000); // Change every 7 seconds
+        }
+        const fileInput = document.getElementById('file-input');
+        const preview = document.getElementById('image-preview');
+
+        // Image preview
+        fileInput.addEventListener('change', function() {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = "";
+            }
+        });
+
+        // Handle form submission (Placeholder)
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Form submitted!');
+        });
+    </script>
 
 </body>
 </html>
