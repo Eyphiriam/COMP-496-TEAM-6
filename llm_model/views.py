@@ -22,7 +22,7 @@ def process_image(request):
 
     # Load the trained LLM model
     try:
-        model = tf.keras.models.load_model('path/to/your/cvd_cnn.keras')  # Update the path
+        model = tf.keras.models.load_model('llm_model/model_final.keras')  # Update the path
         print("Model loaded successfully")
     except Exception as e:
         print(f"Error loading model: {e}")
