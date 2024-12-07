@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "llm_model",
-    "test_app",
+    "project_core",
+
 ]
 
 MIDDLEWARE = [
@@ -37,7 +38,7 @@ ROOT_URLCONF = "project_core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'project_core/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,5 +83,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "project_core/static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
