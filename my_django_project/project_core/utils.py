@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 from django.conf import settings
 from django.core.files.storage import default_storage
-from tensorflow.keras.preprocessing import image as keras_image
+from tensorflow.keras.utils import load_img, img_to_array
 
 def process_image_and_predict(image_file):
     """
@@ -25,8 +25,8 @@ def process_image_and_predict(image_file):
         model = tf.keras.models.load_model(model_path)
         
         # Load and preprocess the image
-        img = keras_image.load_img(full_image_path, target_size=(300, 300), color_mode='grayscale')
-        img_array = keras_image.img_to_array(img)
+        img = load_img(full_image_path, target_size=(300, 300), color_mode='grayscale')
+        img_array = img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
         img_array = img_array / 255.0  # Normalize if needed
 

@@ -312,10 +312,10 @@
         }
       
 
-        document.addEventListener('DOMContentLoaded', () => {
-    const fileInput = document.getElementById('file-input');
-    const preview = document.getElementById('image-preview');
-    const uploadForm = document.getElementById('upload-form');
+            document.addEventListener('DOMContentLoaded', () => {
+                const fileInput = document.getElementById('file-input');
+                const preview = document.getElementById('image-preview');
+                const uploadForm = document.getElementById('upload-form');
 
     // Image Preview
     fileInput.addEventListener('change', () => {
@@ -364,14 +364,48 @@
                 <input type="file" id="file-input" name="image" accept="image/*">
                 <div id="image-preview" class="preview"></div>
             </form>
-    
+
             <div class="button-container">
-                <button type ="submit" button id="upload-btn">Upload</button>
+                <button type ="submit" id="upload-btn">Upload</button>
                 <button type ="button" id="view-history-btn">View History</button>
                 <button type ="button" id="resubmit-btn">Resubmit</button>
                 <button type ="button" id="results-btn">Results</button>
             </div>
         </div>
+
+             <!-- Results Section -->
+             {% if result %}
+             <div class="results-container" style="margin-top: 20px;">
+                 <h2>Results</h2>
+                 <p>{{ result }}</p>
+             </div>
+             {% endif %}
+     
+             <!-- View History Section -->
+             {% if history %}
+             <div class="history-container" style="margin-top: 20px;">
+                 <h2>View History</h2>
+                 <ul>
+                     {% for item in history %}
+                     <li>
+                         <a href="{{ item.image_url }}" target="_blank">{{ item.image_url }}</a>
+                         - Result: {{ item.result }}
+                     </li>
+                     {% endfor %}
+                 </ul>
+             </div>
+             {% endif %}
+         </div>
+         
+
+<!-- History Section in the same index.html or another existing page -->
+<h2>Prediction History</h2>
+<ul>
+    {% for record in prediction_history %}
+        <li>Predicted Class: {{ record.predicted_class }} at {{ record.timestamp }}</li>
+    {% endfor %}
+</ul>
+
     
         <script>
     // Image Preview Logic
@@ -421,27 +455,25 @@
         });
 
         // Resubmit Button
-        document.getElementById('resubmit-btn').addEventListener('click', function() {
-            const formData = new FormData(uploadForm);
-            fetch('/resubmit/', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert("Resubmitted successfully.");
+        document.getElementById('resubmit-btn').addEventListener('click', () => {
+                const formData = new FormData(uploadForm);
+                fetch('/resubmit/', {
+                    method: 'POST',
+                    body: formData,
+                }).then(response => response.json())
+                  .then(data => alert('Resubmitted successfully!'))
+                  .catch(error => console.error(error));
+            });
+
+        // Results Button
+        document.getElementById('results-btn').addEventListener('click', () => {
+                fetch('/results/')
+                    .then(response => response.json())
+                    .then(data => alert('Results: ' + data.result))
+                    .catch(error => console.error(error));
             });
         });
 
-        // Results Button
-        document.getElementById('results-btn').addEventListener('click', function() {
-            fetch('/results/')
-                .then(response => response.json())
-                .then(data => {
-                    alert('Prediction Result: ' + data.result);
-                });
-        });
-    });
 </script>
 
 

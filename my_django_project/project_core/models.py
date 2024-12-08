@@ -7,3 +7,11 @@ class UploadedImage(models.Model):
 
     def __str__(self):
         return f"{self.image.name} - {self.result}"
+
+class PredictionHistory(models.Model):
+    image_path = models.CharField(max_length=255)
+    predicted_class = models.IntegerField()
+    timestamp = models.DateTimeField()
+
+    def __str__(self):
+        return f"Prediction {self.id} - Class {self.predicted_class} at {self.timestamp}"

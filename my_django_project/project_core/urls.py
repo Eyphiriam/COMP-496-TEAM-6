@@ -11,8 +11,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('upload_image/', views.upload_image, name='upload_image'),
     path('view_history/', views.view_history, name='view_history'),
-    path('resubmit/<int:image_id>/', views.resubmit, name='resubmit'),
-    path('results/<int:image_id>/', views.show_result, name='show_result'),
+    path('resubmit/', views.resubmit, name='resubmit'),
+    path('results/<int:image_id>/', views.results, name='results'),
 ]
 
 if settings.DEBUG:
