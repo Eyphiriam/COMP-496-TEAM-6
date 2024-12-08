@@ -310,7 +310,7 @@
             slides[slideIndex - 1].style.display = "block";
             setTimeout(showSlides, 7000); // Change every 7 seconds
         }
-        // const preview = document.getElementById('image-preview'); // Removed duplicate declaration
+      
 
         document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input');
@@ -374,79 +374,75 @@
         </div>
     
         <script>
-            const fileInput = document.getElementById('file-input');
-            const preview = document.getElementById('image-preview');
-            const uploadForm = document.getElementById('upload-form');
-    
-            // Image Preview
-            fileInput.addEventListener('change', function() {
-                const file = fileInput.files[0];
+    // Image Preview Logic
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('file-input');
+        const preview = document.getElementById('image-preview');
+        const uploadForm = document.getElementById('upload-form');
+        
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = function(event) {
+                reader.onload = (event) => {
                     preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
                 };
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.innerHTML = "";
-                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Upload Button Functionality
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            const formData = new FormData(uploadForm);
+
+            fetch('/upload_image/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Upload successful:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
-    
-            // Handle upload form submission (AJAX)
-            uploadForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-    
-                const formData = new FormData(uploadForm);
-                fetch('/upload/', {
-                    method: 'POST',
-                    body: formData
-                })
+        });
+
+        // View History Button
+        document.getElementById('view-history-btn').addEventListener('click', function() {
+            fetch('/view_history/')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        alert("Image uploaded successfully.");
-                        // Optionally, update UI with the prediction result or show a success message
-                    } else {
-                        alert("Upload failed.");
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            });
-    
-            // View History Button
-            document.getElementById('view-history-btn').addEventListener('click', function() {
-                fetch('/view_history/')
-                    .then(response => response.json())
-                    .then(data => {
-                        alert('View History: ' + JSON.stringify(data));
-                        // Optionally display the history data on the page
-                    });
-            });
-    
-            // Resubmit Button
-            document.getElementById('resubmit-btn').addEventListener('click', function() {
-                const formData = new FormData(uploadForm);
-                fetch('/resubmit/', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert("Resubmitted successfully.");
-                    // Optionally update UI or display results
+                    alert('View History: ' + JSON.stringify(data));
                 });
+        });
+
+        // Resubmit Button
+        document.getElementById('resubmit-btn').addEventListener('click', function() {
+            const formData = new FormData(uploadForm);
+            fetch('/resubmit/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Resubmitted successfully.");
             });
-    
-            // Results Button
-            document.getElementById('results-btn').addEventListener('click', function() {
-                fetch('/results/')
-                    .then(response => response.json())
-                    .then(data => {
-                        alert('Prediction Result: ' + data.result);
-                        // Optionally display the prediction result on the page
-                    });
-            });
-        </script>
+        });
+
+        // Results Button
+        document.getElementById('results-btn').addEventListener('click', function() {
+            fetch('/results/')
+                .then(response => response.json())
+                .then(data => {
+                    alert('Prediction Result: ' + data.result);
+                });
+        });
+    });
+</script>
 
 
 </body>

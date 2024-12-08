@@ -2,13 +2,17 @@ from django.urls import path
 from . import views  
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path, include
+from django.contrib import admin
 
 
 urlpatterns = [
-    path('', views.index, name='index'),  # The home page that renders the index.html
-    path('upload/', views.upload_image, name='upload_image'),
+    path('admin/', admin.site.urls),  # Admin interface
+    path('', views.index, name='index'),
+    path('upload_image/', views.upload_image, name='upload_image'),
+    path('view_history/', views.view_history, name='view_history'),
     path('resubmit/<int:image_id>/', views.resubmit, name='resubmit'),
-    path('show_result/<int:image_id>/', views.show_result, name='show_result'),
+    path('results/<int:image_id>/', views.show_result, name='show_result'),
 ]
 
 if settings.DEBUG:

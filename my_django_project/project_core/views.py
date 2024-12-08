@@ -41,6 +41,26 @@ def upload_image(request):
     return JsonResponse({'error': 'No image uploaded'}, status=400)
 
 
+from django.http import JsonResponse
+from .models import UploadedImage  # Assuming you have this model to store uploaded images and predictions
+
+def view_history(request):
+    # Fetch all uploaded images and their results
+    images = UploadedImage.objects.all().order_by('-timestamp')  # You can adjust ordering as needed
+    
+    # Prepare the history data
+    history_data = [
+        {
+            "image_url": image.image.url,  # URL of the uploaded image
+            "result": image.result,        # Prediction result for the image
+            "timestamp": image.timestamp,  # Timestamp of upload
+        }
+        for image in images
+    ]
+    
+    # Return the data as a JSON response
+    return JsonResponse({'history': history_data})
+
 def show_result(request, image_id):
     uploaded_image = get_object_or_404(UploadedImage, id=image_id)
     

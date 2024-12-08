@@ -12,3 +12,38 @@ body{
   color: white;
   font-size: 30px;
 }
+
+/* Upload Section Styling */
+.upload-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.upload-container input[type="file"] {
+  margin-top: 20px;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: center;  /* Center buttons horizontally */
+  gap: 20px;  /* Space between buttons */
+  margin-top: 20px;
+}
+
+/* Button Styling */
+.button-container button {
+  background-color: #fefcce;
+  color: rgb(10, 9, 9);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 150px;  /* Fixed width for each button */
+}
+
+.button-container button:hover {
+  background-color: #02612e;
+}
