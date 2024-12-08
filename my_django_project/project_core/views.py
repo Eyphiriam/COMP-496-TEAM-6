@@ -1,5 +1,4 @@
 # project_core/views.py
-from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import ImageUploadForm  # You'll need to create this form
 from .models import UploadedImage  # You need a model to save the uploaded images
@@ -7,27 +6,40 @@ from .utils import process_image_and_predict  # The function to process and pred
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import cv2
+import numpy as np
+import tensorflow as tf
+
+def load_model():
+    # Load your trained TensorFlow model
+    MODEL_PATH = 'llm_model/model_final.keras'  
+    model = tf.keras.models.load_model(MODEL_PATH)
+    return model
 
 def index(request):
-    return render(request, 'core/index.html')
+    # Fetch the uploaded images and their results
+    images = UploadedImage.objects.all().order_by('-timestamp')
+    return render(request, 'core/index.html', {'images': images})
 
+# Upload image view
 def upload_image(request):
-    if request.method == 'POST' and request.FILES['image']:
+    if request.method == 'POST' and 'image' in request.FILES:
         image = request.FILES['image']
         uploaded_image = UploadedImage.objects.create(image=image)
-        result = process_image_and_predict(uploaded_image.image.path)  # Assuming a function to handle the model prediction
-        uploaded_image.result = result
+
+        # Process image and predict after upload
+        result = process_image_and_predict(uploaded_image.image.path)
+        uploaded_image.result = result  # Store prediction result in the model
         uploaded_image.save()
+
         return JsonResponse({
-            'message': 'File uploaded successfully!',
+            'message': 'Image uploaded and prediction completed!',
             'image_url': uploaded_image.image.url,
             'result': result
         })
-    return JsonResponse({'error': 'No file uploaded'}, status=400)
+    
+    return JsonResponse({'error': 'No image uploaded'}, status=400)
 
-def view_history(request):
-    images = UploadedImage.objects.all().order_by('-timestamp')
-    return render(request, 'core/view_history.html', {'images': images})
 
 def show_result(request, image_id):
     uploaded_image = get_object_or_404(UploadedImage, id=image_id)
@@ -39,12 +51,19 @@ def show_result(request, image_id):
         'result': uploaded_image.result,
     })
 
-def resubmit_image(request):
-    if request.method == 'POST' and request.FILES.get('image'):
-        image = request.FILES['image']
-        uploaded_image = UploadedImage.objects.create(image=image, result="Resubmitted Result")
-        return JsonResponse({'success': True, 'image_url': uploaded_image.image.url})
-    return JsonResponse({'success': False}, status=400)
+def resubmit(request, image_id):
+    uploaded_image = get_object_or_404(UploadedImage, id=image_id)
+    
+    # Reprocess the image and update the result
+    result = process_image_and_predict(uploaded_image.image.path)
+    uploaded_image.result = result
+    uploaded_image.save()
+    
+    return JsonResponse({
+        'message': 'Image reprocessed successfully!',
+        'image_url': uploaded_image.image.url,
+        'result': result,
+    })
 
 @api_view(['POST'])
 def process_image(request):

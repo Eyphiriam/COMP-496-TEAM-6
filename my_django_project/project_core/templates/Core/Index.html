@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,6 +59,16 @@
         .header p {
             color: #fefcce; /* Gold color */
         }
+
+        /*For Uploaded image preview to fit a small area*/
+        .preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: block;
+        }
+
 
         /* Main Content Styles */
         .content {
@@ -193,11 +202,19 @@
                 width: 100%;
                 margin-bottom: 10px;
             }
+            /*slideshow formattng*/
+            .slideshow-container img {
+                width: 100%;
+                height: auto; /* Maintain aspect ratio */
+                border-radius: 10px; /* Optional for aesthetics */
+            }
+
         }
     </style>
 </head>
 
 <body>
+    <!-- Header Section -->
     <div class="header">
         <img src="{% static 'images/CTNeuroNetLogo.png' %}" alt="CT-NeuroNet Logo">
         <div>
@@ -205,6 +222,8 @@
             <p>COVID-19 Detector</p>
         </div>
     </div>
+
+    <!-- Slideshow Section -->
 <div class="slideshow-container">
         <div class="slides fade">
             <img src="{% static 'images/image1.jpg' %}" style="width:100%" style="height:100%" alt="Slide 1">
@@ -217,6 +236,7 @@
         </div>
     </div>
 
+    <!--Overview Section-->
     <div class="container">
         <h1>CT-NeuroNet Overview</h1>
         <p>
@@ -261,19 +281,12 @@
         </div>
     </div>
 
-    <!-- Image Upload Section -->
-    <div class="upload-container">
-        <h2>Upload Your CT Image</h2>
-        <form id="upload-form">
-            <input type="file" id="file-input" accept="image/*">
-            <div id="image-preview" class="preview"></div>
-        </form>
 
 
 
     <!-- JavaScript for File Preview -->
     <script>
-let slideIndex = 0;
+        let slideIndex = 0;
 
         // Show initial slide
         showSlides();
@@ -299,27 +312,48 @@ let slideIndex = 0;
         }
         // const preview = document.getElementById('image-preview'); // Removed duplicate declaration
 
-        // Image preview
-        fileInput.addEventListener('change', function() {
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+        document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-input');
+    const preview = document.getElementById('image-preview');
+    const uploadForm = document.getElementById('upload-form');
 
-            reader.onload = function(event) {
+    // Image Preview
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
                 preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
             };
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = ""; // Clear preview if no file selected
+        }
+    });
 
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.innerHTML = "";
-            }
-        });
+    // Handle form submission
+    uploadForm.addEventListener('submit', (event) => {
+        event.preventDefault();
 
-        // Handle form submission (Placeholder)
-        document.getElementById('upload-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Form submitted!');
-        });
+        const formData = new FormData(uploadForm);
+        fetch('/upload/', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Image uploaded successfully!");
+                } else {
+                    alert("Image upload failed. Please try again.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    });
+});
+
     </script>
 
         <!-- Upload Section -->
@@ -329,13 +363,13 @@ let slideIndex = 0;
                 {% csrf_token %}
                 <input type="file" id="file-input" name="image" accept="image/*">
                 <div id="image-preview" class="preview"></div>
-                <button type="submit" id="upload-btn">Upload</button>
             </form>
     
             <div class="button-container">
-                <button id="view-history-btn">View History</button>
-                <button id="resubmit-btn">Resubmit</button>
-                <button id="results-btn">Results</button>
+                <button type ="submit" button id="upload-btn">Upload</button>
+                <button type ="button" id="view-history-btn">View History</button>
+                <button type ="button" id="resubmit-btn">Resubmit</button>
+                <button type ="button" id="results-btn">Results</button>
             </div>
         </div>
     
