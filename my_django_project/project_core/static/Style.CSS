@@ -49,13 +49,42 @@ a:hover {
   color: #fefcce;
 }
 
+/* Navbar */
+.navbar {
+  background-color: #252525;
+  padding: 10px 20px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: #fefcce;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #4CAF50;
+}
+
 /* Uploaded image preview */
 .preview img {
   max-width: 100%;
   max-height: 300px;
+  border: 2px solid #4CAF50;
+  padding: 5px;
   border-radius: 8px;
-  margin-top: 10px;
-  display: block;
 }
 
 /* Main Content Styles */
@@ -63,7 +92,6 @@ a:hover {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  /*flex-wrap: wrap;*/
   padding: 40px;
   background-color: #ffffff;
 }
@@ -97,7 +125,7 @@ a:hover {
   color: #333;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Gives some space when wrapping on smaller screens */
+  margin-bottom: 20px;
 }
 
 .how-it-works h2, .contact-us h2 {
@@ -134,7 +162,7 @@ a:hover {
   margin: 20px auto;
 }
 
-/* Button Styles */
+/* Button Styles - Reverted to large, yellow and bold */
 .button-container {
   display: flex;
   justify-content: space-between;
@@ -150,11 +178,31 @@ a:hover {
   cursor: pointer;
   font-size: 16px;
   width: 30%;
+  transition: background-color 0.2s;
 }
 
 .button-container button:hover {
   background-color: #02612e;
   color: #ffffff;
+}
+
+/* Tooltip on hover for button titles */
+.button-container button[title] {
+  position: relative;
+}
+
+.button-container button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fefcce;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 /* Prediction Classes */
@@ -181,29 +229,6 @@ a:hover {
 }
 
 /* Slideshow */
-.slideshow-container img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .how-it-works, .contact-us {
-      width: 100%;
-  }
-  
-  .button-container {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .button-container button {
-      width: 100%;
-      margin-bottom: 10px;
-  }
-}
-
 .slideshow-container {
   position: relative;
   max-width: 1000px;
@@ -224,4 +249,32 @@ a:hover {
 @keyframes fade {
   from {opacity: .4}
   to {opacity: 1}
+}
+
+/* Footer */
+.bottomBanner p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .how-it-works, .contact-us {
+      width: 100%;
+  }
+  
+  .button-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .button-container button {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
+
+.btn:hover {
+  background-color: #02612e;
+  color: #fff;
 }

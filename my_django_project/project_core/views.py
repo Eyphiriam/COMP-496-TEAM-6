@@ -159,3 +159,9 @@ def process_image(request):
         return JsonResponse({"predicted_class": int(prediction)}, status=200)
     finally:
         pass
+
+def contact(request):
+    return render(request, 'core/contact.html')
+
+def about(request):
+    return render(request, 'core/about.html')

@@ -41,32 +41,29 @@
         <div class="container" style="max-width: 800px; text-align: center;">
             <h2 style="margin-bottom: 30px;">Prediction History</h2>
             {% if history %}
-                <ul style="list-style: none; padding: 0; text-align: left;">
-                    {% for entry in history %}
-                        <li style="background: #f8f5f5; margin-bottom: 20px; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <!-- Image Preview -->
-                            <div style="text-align:center; margin-bottom: 20px;">
-                                <a href="{{ entry.image_path.url }}" target="_blank">
-                                    <img src="{{ entry.image_path.url }}" alt="Predicted Image" style="max-width: 150px; max-height: 150px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
-                                </a>
-                            </div>
-                            <p><strong>Prediction:</strong> {{ entry.predicted_class }}</p>
-                            <p><strong>Image Path:</strong> <a href="{{ entry.image_path.url }}" target="_blank" style="color: #4CAF50;">{{ entry.image_path.url }}</a></p>
-                            <p><strong>Timestamp:</strong> {{ entry.timestamp|date:"Y-m-d H:i:s" }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <ul style="list-style:none; padding:0;">
+                {% for entry in history %}
+                <li style="background:#f8f5f5; margin-bottom:20px; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <a href="{{ entry.image_path.url }}" target="_blank">
+                            <img src="{{ entry.image_path.url }}" alt="Predicted Image" style="max-width:150px; max-height:150px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+                        </a>
+                    </div>
+                    <p><strong>Prediction:</strong> {{ entry.predicted_class }}</p>
+                    <p><strong>Image Path:</strong> <a href="{{ entry.image_path.url }}" target="_blank" style="color:#4CAF50;">{{ entry.image_path.url }}</a></p>
+                    <p><strong>Timestamp:</strong> {{ entry.timestamp|date:"Y-m-d H:i:s" }}</p>
+                </li>
+                {% endfor %}
+            </ul>
             {% else %}
-                <p>No history available.</p>
+            <p>No history available. Once you upload images and receive predictions, they'll appear here.</p>
             {% endif %}
             
-            <div style="margin-top: 30px;">
-                <a href="{% url 'index' %}" class="btn" style="display: inline-block; background: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+            <div style="margin-top:30px;">
+                <a href="{% url 'index' %}" class="btn" style="display:inline-block; background:#4CAF50; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none;">
                     Go back to home page!
                 </a>
             </div>
-        </div>
-    </div>
 
     <!-- Footer Section -->
     <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px; margin-top: 40px;">

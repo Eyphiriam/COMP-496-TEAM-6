@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const predictionElem = document.getElementById('prediction');
     const confidenceElem = document.getElementById('confidence');
     const uploadedImageElem = document.getElementById('uploadedImage');
-    // Insert logic for these elements if needed
+
 
     // Optional navigation buttons
     const resubmitButton = document.getElementById('resubmitButton');
@@ -143,3 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Before fetching in upload or resubmit:
+statusMessage.textContent = "Uploading, please wait...";
+statusMessage.style.color = "#333";
+
+// On success or error:
+statusMessage.textContent = "Upload successful!";
+statusMessage.style.color = "green";

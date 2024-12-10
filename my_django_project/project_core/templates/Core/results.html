@@ -69,9 +69,9 @@
                 <h3>Prediction Outcome:</h3>
                 <ul style="list-style: none; padding: 0;">
                     {% if prediction == "COVID LIKELY" %}
-                        <li class="likely">{{ prediction }}</li>
+                        <li class="likely" style="font-size: 1.2em;">{{ prediction }} <span style="color:red;">&#x26A0;</span></li>
                     {% elif prediction == "COVID FREE" %}
-                        <li class="free">{{ prediction }}</li>
+                        <li class="free" style="font-size: 1.2em;">{{ prediction }} <span style="color:green;">&#x2714;</span></li>
                     {% else %}
                         <li>{{ prediction }}</li>
                     {% endif %}
@@ -79,40 +79,44 @@
             </div>
 
             <!-- COVID Tips -->
+
             {% if prediction == "COVID LIKELY" %}
-                <div class="covid-tips" style="text-align: left; margin: 20px auto; background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                    <h3 style="text-decoration: underline;">Tips for Fighting COVID-19:</h3>
-                    <ul>
-                        <li>Stay home and isolate yourself from others.</li>
-                        <li>Wear a well-fitted mask when around others.</li>
-                        <li>Get plenty of rest and stay hydrated.</li>
-                        <li>Monitor your symptoms and seek medical attention if they worsen.</li>
-                    </ul>
-                    <h3 style="text-decoration: underline;">COVID-19 Resources:</h3>
-                    <ul>
-                        <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC COVID-19 Information</a></li>
-                        <li><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank">WHO COVID-19 Information</a></li>
-                        <li><a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/covid-19/prevention" target="_blank">ALA Preventing COVID-19</a></li>
-                    </ul>
-                </div>
-                {% elif prediction == "COVID FREE" %}
-                <div class="covid-tips" style="text-align: left; margin: 20px auto; background: #f9f9f9; padding: 20px; border-radius: 8px;">
-                    <h3 style="text-decoration: underline;">COVID-19 Resources:</h3>
-                    <ul>
-                        <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC COVID-19 Information</a></li>
-                        <li><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank">WHO COVID-19 Information</a></li>
-                    </ul>
-                </div>
+            <div class="covid-tips" style="text-align: left; margin: 20px auto; background: #fff3f3; border: 2px solid #f44336; padding: 20px; border-radius: 8px;">
+                <h3 style="text-decoration: underline; color:#f44336;">Tips for Fighting COVID-19:</h3>
+                <ul>
+                    <li>Stay home and isolate yourself from others.</li>
+                    <li>Wear a well-fitted mask when around others.</li>
+                    <li>Get plenty of rest and stay hydrated.</li>
+                    <li>Monitor your symptoms and seek medical attention if they worsen.</li>
+                </ul>
+                <h3 style="text-decoration: underline; color:#f44336;">COVID-19 Resources:</h3>
+                <ul>
+                    <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC COVID-19 Information</a></li>
+                    <li><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank">WHO COVID-19 Information</a></li>
+                    <li><a href="https://www.lung.org/lung-health-diseases/lung-disease-lookup/covid-19/prevention" target="_blank">ALA Preventing COVID-19</a></li>
+                </ul>
+            </div>
+            {% elif prediction == "COVID FREE" %}
+            <div class="covid-tips" style="text-align: left; margin: 20px auto; background: #f2fff2; border: 2px solid #4CAF50; padding: 20px; border-radius: 8px;">
+                <h3 style="text-decoration: underline; color:#4CAF50;">COVID-19 Resources:</h3>
+                <ul>
+                    <li><a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html" target="_blank">CDC COVID-19 Information</a></li>
+                    <li><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank">WHO COVID-19 Information</a></li>
+                </ul>
+                <p>You appear to be COVID-free. However, continue to practice safety measures and monitor your health.</p>
+            </div>
             {% endif %}
 
             <!-- Go back to home page -->
             <div style="margin-top: 30px;">
-                <a href="{% url 'index' %}" class="btn" style="display: inline-block; background: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+                <a href="{% url 'index' %}" class="btn" style="display: inline-block; background: #4CAF50; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; margin-right:10px;">
                     Go back to home page!
-                </a> 
+                </a>
+                <a href="{% url 'view_history' %}" class="btn" style="display: inline-block; background: #fefcce; color:#333; padding: 10px 20px; border-radius:5px; text-decoration:none;">
+                    View History
+                </a>
             </div>
         </div>
-    </div>
 
     <!-- Footer Section -->
     <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px;">

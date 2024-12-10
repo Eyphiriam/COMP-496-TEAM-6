@@ -38,7 +38,15 @@
             <p>COVID-19 Detector</p>
         </div>
     </div>
-
+    <div class="navbar">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'view_history' %}">View History</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/about/">About</a></li>
+        </ul>
+    </div>
+    
     <!-- Slideshow Section -->
 <div class="slideshow-container">
         <div class="slides fade">
@@ -100,6 +108,7 @@
         <!-- Upload Section -->
         <div class="upload-container">
             <h2>Upload Your CT Image</h2>
+            <p>Select a CT scan image for analysis. Once uploaded, you'll be redirected to the results page.</p>
             <form id="upload-form" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="file" id="file-input" name="image" accept="image/*">
@@ -109,8 +118,8 @@
             <div class="button-container">
                 <button type ="submit" id="upload-btn">Upload</button>
                 <button type ="button" id="view-history-btn">View History</button>
-                <button type ="button" id="resubmit-btn">Resubmit</button>
-                <button type ="button" id="results-btn">View Results</button>
+                <button type="button" id="resubmit-btn" title="Upload a new image to re-check results">Resubmit</button>
+                <button type="button" id="results-btn" title="View last prediction results">View Results</button>
             </div>
         </div>
         <div id="status-message" style="margin: 20px; font-weight: bold;"></div>
