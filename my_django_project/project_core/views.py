@@ -1,108 +1,161 @@
-# project_core/views.py
-from django.shortcuts import render
-from django.http import JsonResponse
-from .forms import ImageUploadForm  # You'll need to create this form
-from .models import UploadedImage  # You need a model to save the uploaded images
-from .utils import process_image_and_predict  # The function to process and predict using the model
-from django.shortcuts import render, get_object_or_404
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-import cv2
-import numpy as np
-import tensorflow as tf
-from django.core.files.storage import default_storage
 import os
-from django.conf import settings
 from datetime import datetime
-from .models import PredictionHistory  
-# Simulated database for storing history
-history_db = []
+import numpy as np
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from rest_framework.decorators import api_view
+import tensorflow as tf
+from tensorflow.keras.utils import img_to_array
+from project_core.utils import process_image_and_predict
+from project_core.models import PredictionHistory, UploadedImage
+import logging
+
+logger = logging.getLogger(__name__)
+tf.get_logger().setLevel('ERROR')
 
 def load_model():
-    # Load your trained TensorFlow model
-    MODEL_PATH = 'llm_model/model_final.keras'  
-    model = tf.keras.models.load_model(MODEL_PATH)
-    return model
+    model_path = os.path.join(settings.BASE_DIR, 'llm_model', 'model_final.keras')
+    return tf.keras.models.load_model(model_path)
+
 
 def index(request):
-    # Get the latest prediction result
-    prediction = PredictionHistory.objects.first()  # Latest prediction
-    # Get all prediction history
-    prediction_history = PredictionHistory.objects.all().order_by('-timestamp')  # Optional: Limit results to show top N
+    latest_prediction = PredictionHistory.objects.first()
+    prediction_history = PredictionHistory.objects.all().order_by('-timestamp')
     return render(request, 'core/index.html', {
-        'prediction': prediction,
+        'latest_prediction': latest_prediction,
         'prediction_history': prediction_history,
     })
 
-
-# Upload image view
 def upload_image(request):
-    result = None
-    if request.method == 'POST' and 'image' in request.FILES:
-        image = request.FILES['image']
-        uploaded_image = UploadedImage.objects.create(image=image)
+    if request.method == 'POST' and request.FILES.getlist('image'):
+        uploaded_images = request.FILES.getlist('image')
+        predictions = []
+        last_uploaded_image_path = None
 
-        # Process image and predict after upload
-        result = process_image_and_predict(uploaded_image.image.path)
-        uploaded_image.result = result  # Store prediction result in the model
-        uploaded_image.save()
+        for uploaded_image in uploaded_images:
+            # Create an UploadedImage instance to store the file
+            uploaded_img = UploadedImage()
+            uploaded_img.image.save(uploaded_image.name, uploaded_image, save=True)
+            # Now uploaded_img.image.path is the file path on disk
+            full_path = uploaded_img.image.path
+            logger.info(f"File saved at: {full_path}")
 
-        return JsonResponse({
-            'message': 'Image uploaded and prediction completed!',
-            'image_url': uploaded_image.image.url,
-            'result': result
-        })
-    
-    return JsonResponse({'error': 'No image uploaded'}, status=400)
+            try:
+                result = process_image_and_predict(full_path)
+                if "predicted_class" in result:
+                    prediction = result["predicted_class"]
+                    predictions.append(prediction)
+
+                    # Create PredictionHistory entry using the same uploaded file
+                    pred_history = PredictionHistory(predicted_class=prediction)
+                    pred_history.image_path.name = uploaded_img.image.name
+                    pred_history.save()
+                    
+                    # Store the last processed image path in session
+                    last_uploaded_image_path = pred_history.image_path.name
+                else:
+                    logger.error(f"Invalid prediction result for {uploaded_image.name}: {result}")
+                    continue
+            except Exception as e:
+                logger.error(f"Error processing {uploaded_image.name}: {result.get('error', 'Unknown error')}")
+                continue
+
+        # Store predictions and last uploaded image path in session
+        request.session['predictions'] = predictions
+        if last_uploaded_image_path:
+            request.session['last_uploaded_image_path'] = last_uploaded_image_path
+
+        return redirect('results')
+
+    return render(request, 'results.html')
+
+def results(request):
+    predictions = request.session.get('predictions', [])
+    if not predictions:
+        prediction = "No prediction"
+    else:
+        predicted_class = predictions[0]
+        if predicted_class == 1:
+            prediction = "COVID LIKELY"
+        else:
+            prediction = "COVID FREE"
+
+    last_uploaded_image_path = request.session.get('last_uploaded_image_path')
+    uploaded_image_url = None
+    if last_uploaded_image_path:
+        uploaded_image_url = settings.MEDIA_URL + last_uploaded_image_path
+
+    return render(request, 'core/results.html', {
+        'prediction': prediction,
+        'uploaded_image_url': uploaded_image_url
+    })
+
+def resubmit(request):
+    if request.method == 'POST' and request.FILES.getlist('image'):
+        uploaded_images = request.FILES.getlist('image')
+        predictions = []
+        last_uploaded_image_path = None
+
+        for uploaded_image in uploaded_images:
+            # For resubmission, treat it as a new upload
+            uploaded_img = UploadedImage()
+            uploaded_img.image.save(uploaded_image.name, uploaded_image, save=True)
+            full_path = uploaded_img.image.path
+            logger.info(f"Resubmit: File saved at: {full_path}")
+
+            try:
+                result = process_image_and_predict(full_path)
+                if "predicted_class" in result:
+                    prediction = result["predicted_class"]
+                    predictions.append(prediction)
+
+                    # Create new PredictionHistory entry
+                    pred_history = PredictionHistory(predicted_class=prediction)
+                    pred_history.image_path.name = uploaded_img.image.name
+                    pred_history.save()
+                    
+                    last_uploaded_image_path = pred_history.image_path.name
+                else:
+                    logger.error(f"Invalid prediction result for {uploaded_image.name}: {result}")
+                    continue
+            except Exception as e:
+                logger.error(f"Error processing {uploaded_image.name}: {result.get('error', 'Unknown error')}")
+                continue
+
+        request.session['predictions'] = predictions
+        if last_uploaded_image_path:
+            request.session['last_uploaded_image_path'] = last_uploaded_image_path
+
+        return redirect('results')
+
+    return JsonResponse({'status': 'error', 'message': 'No image provided for resubmit or invalid request method.'}, status=400)
 
 
 def view_history(request):
-    # Get the latest prediction result (or all predictions)
-    history = PredictionHistory.objects.all().order_by('-timestamp')[:10]  # Show the last 10 predictions
+    history = PredictionHistory.objects.all().order_by('-timestamp')[:10]
+    return render(request, 'core/View_History.html', {'history': history})
 
-    # Pass the history to the template
-    return render(request, 'core/index.html', {'history': history})
 
-def results(request, image_id):
-    # Fetch the image record based on image_id
-    image = get_object_or_404(UploadedImage, id=image_id)
-    # Perform processing or pass the image to the template
-    return render(request, 'core/index.html', {'image': image})
-
-def resubmit(request):
-    if request.method == "POST":
-        # Handle the resubmission logic
-        return JsonResponse({'status': 'success', 'message': 'Image resubmitted successfully!'})
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
-
-#model used to process the image
 @api_view(['POST'])
 def process_image(request):
-    # Check if the request contains an image
     if 'image' not in request.FILES:
-        return Response({"error": "No image provided"}, status=400)
-    
+        return JsonResponse({"error": "No image provided"}, status=400)
     image_file = request.FILES['image']
-    image_path = default_storage.save(f'uploads/{image_file.name}', image_file)
-    full_image_path = os.path.join(settings.MEDIA_ROOT, image_path)
 
-  # Load the model
-    model_path = os.path.join(settings.BASE_DIR, 'llm_model', 'model_final.keras')
+    # Temporary UploadedImage to apply upload_to logic
+    uploaded_img = UploadedImage()
+    uploaded_img.image.save(image_file.name, image_file, save=True)
+    full_temp_path = uploaded_img.image.path
+
     try:
-        model = tf.keras.models.load_model(model_path)
-    except Exception as e:
-        return Response({"error": f"Model loading failed: {e}"}, status=500)
-   # Process the image for prediction
-    image = tf.keras.preprocessing.image.load_img(full_image_path, target_size=(300, 300), color_mode='grayscale')
-    image_array = tf.keras.preprocessing.image.img_to_array(image)
-    image_array = np.expand_dims(image_array, axis=0)
-    image_array = image_array / 255.0
-
-    # Make prediction
-    prediction = model.predict(image_array)
-    predicted_class = np.argmax(prediction, axis=1)
-
-    # Save the result to history (optional)
-    PredictionHistory.objects.create(image_path=image_path, predicted_class=predicted_class[0], timestamp=datetime.now())
-
-    return Response({"predicted_class": int(predicted_class[0])}, status=200)
+        prediction = process_image_and_predict(full_temp_path)
+        pred_history = PredictionHistory(
+            predicted_class=prediction,
+            timestamp=datetime.now()
+        )
+        pred_history.image_path.save(image_file.name, image_file, save=True)
+        return JsonResponse({"predicted_class": int(prediction)}, status=200)
+    finally:
+        pass

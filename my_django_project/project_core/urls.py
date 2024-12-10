@@ -12,8 +12,8 @@ urlpatterns = [
     path('upload_image/', views.upload_image, name='upload_image'),
     path('view_history/', views.view_history, name='view_history'),
     path('resubmit/', views.resubmit, name='resubmit'),
-    path('results/<int:image_id>/', views.results, name='results'),
-]
+    path('results/', views.results, name='results'),
+] 
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

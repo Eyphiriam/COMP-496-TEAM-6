@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "llm_model",
     "project_core",
+    "media",
 
 ]
 
@@ -83,6 +84,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "project_core/static"]
+STATICFILES_DIRS = [BASE_DIR / 'project_core' / 'static', ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

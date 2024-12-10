@@ -4,213 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload - CT-NeuroNet</title>
-    <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #ffffff; /* White background */
-            line-height: 1.6;
-            color: #333; /* Dark text for readability */
-        }
+    <title>CT-NeuroNet</title>
+    <!-- icon stuff for THE website header -->
+    <link rel="icon" href="{% static 'images/CTNeuroNetLogo.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/CTNeuroNetLogo.png' %}" type="image/png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
-        h1, h2, p {
-            margin: 0 0 20px;
-            color: #333;
-        }
+    <link rel="stylesheet" type="text/css" href="{% static 'Style.css' %}">
 
-        a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Header Styles */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px;
-            background-color: #252525; /* Dark background for contrast */
-            color: #fefcce; /* Light text color */
-            font-size: 30px;
-            position: relative;
-            text-align: center;
-        }
-
-        .header img {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 100px;
-            height: auto;
-        }
-
-        /* Make the title text gold */
-        .header h1 {
-            color: #fefcce; /* Gold color */
-        }
-
-        /* Make the subtitle text gold */
-        .header p {
-            color: #fefcce; /* Gold color */
-        }
-
-        /*For Uploaded image preview to fit a small area*/
-        .preview img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: block;
-        }
-
-
-        /* Main Content Styles */
-        .content {
-            display: flex;
-            justify-content: space-between;
-            padding: 40px;
-            background-color: #ffffff; /* White background for content */
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 40px auto; /* Auto margins to center the container */
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center the text */
-        }
-
-        /* Center the title inside .container */
-        .container h1 {
-            color: #252525; /* Dark color for the heading */
-            margin-bottom: 20px;
-        }
-
-        .container p {
-            color: #555;
-            margin-bottom: 15px;
-            text-align: justify; /* Optional: Adds justified alignment to the paragraph text */
-        }
-
-        .how-it-works, .contact-us {
-            width: 48%;
-            padding: 20px;
-            background-color: #fefcce; /* Light background for these sections */
-            color: #333; /* Dark text for readability */
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .how-it-works h2, .contact-us h2 {
-            text-align: center;
-            color: #252525; /* Dark text color for headers */
-        }
-
-        .how-it-works p, .contact-us p {
-            color: #333;
-        }
-
-        /* Image Upload Section */
-        .upload-container {
-            background-color: #f8f5f5; /* White background for upload container */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            margin: 40px auto;
-            text-align: center;
-        }
-
-        .upload-container h2 {
-            color: #333;
-        }
-
-        .upload-container input[type="file"] {
-            display: block;
-            margin: 20px auto;
-        }
-
-        .preview img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .button-container button {
-            background-color: #fefcce;
-            color: rgb(10, 9, 9);
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 30%;
-        }
-
-        .button-container button:hover {
-            background-color: #02612e;
-        }
-
-        /* Container for content inside .how-it-works section */
-        .left-stanza p {
-            color: #333;
-        }
-
-        /* Contact List Styles */
-        .contact-us ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .contact-us li {
-            margin-bottom: 10px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
-                padding: 20px;
-            }
-
-            .how-it-works, .contact-us {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-
-            .button-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .button-container button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            /*slideshow formattng*/
-            .slideshow-container img {
-                width: 100%;
-                height: auto; /* Maintain aspect ratio */
-                border-radius: 10px; /* Optional for aesthetics */
-            }
-
-        }
-    </style>
 </head>
 
 <body>
@@ -218,7 +34,7 @@
     <div class="header">
         <img src="{% static 'images/CTNeuroNetLogo.png' %}" alt="CT-NeuroNet Logo">
         <div>
-            <h1>CT-NeuroNet</h1>
+            <h1>CT-NeuroNet : Home Page</h1>
             <p>COVID-19 Detector</p>
         </div>
     </div>
@@ -270,7 +86,7 @@
             <h2>Contact Us:</h2>
             <p>If you have any questions, feel free to reach out:</p>
             <ul>
-                <li><strong>Email:</strong> <a href="mailto:meagbogl@aggies.ncat.edu">meagbogl@aggies.ncat.edu</a></li>
+                <li><strong>Email:</strong> <a href="mailto:meagboglo@aggies.ncat.edu">meagboglo@aggies.ncat.edu</a></li>
                 <li><strong>Phone:</strong> <a href="tel:+13363347500">+1 (336) 334-7500</a></li>
                 <li><strong>Email:</strong> <a href="mailto:jpowell@aggies.ncat.edu">jpowell@aggies.ncat.edu</a></li>
                 <li><strong>Phone:</strong> <a href="tel:+13363347500">+1 (336) 334-7500</a></li>
@@ -280,81 +96,6 @@
             </ul>
         </div>
     </div>
-
-
-
-
-    <!-- JavaScript for File Preview -->
-    <script>
-        let slideIndex = 0;
-
-        // Show initial slide
-        showSlides();
-
-        function showSlides() {
-            let i;
-            let slides = document.getElementsByClassName("slides");
-
-            // Hide all slides
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-
-            // Increment slide index
-            slideIndex++;
-            if (slideIndex > slides.length) {
-                slideIndex = 1;
-            }
-
-            // Display the current slide
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 7000); // Change every 7 seconds
-        }
-      
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const fileInput = document.getElementById('file-input');
-                const preview = document.getElementById('image-preview');
-                const uploadForm = document.getElementById('upload-form');
-
-    // Image Preview
-    fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.innerHTML = ""; // Clear preview if no file selected
-        }
-    });
-
-    // Handle form submission
-    uploadForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(uploadForm);
-        fetch('/upload/', {
-            method: 'POST',
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    alert("Image uploaded successfully!");
-                } else {
-                    alert("Image upload failed. Please try again.");
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    });
-});
-
-    </script>
 
         <!-- Upload Section -->
         <div class="upload-container">
@@ -369,113 +110,28 @@
                 <button type ="submit" id="upload-btn">Upload</button>
                 <button type ="button" id="view-history-btn">View History</button>
                 <button type ="button" id="resubmit-btn">Resubmit</button>
-                <button type ="button" id="results-btn">Results</button>
+                <button type ="button" id="results-btn">View Results</button>
             </div>
         </div>
+        <div id="status-message" style="margin: 20px; font-weight: bold;"></div>
 
-             <!-- Results Section -->
-             {% if result %}
-             <div class="results-container" style="margin-top: 20px;">
-                 <h2>Results</h2>
-                 <p>{{ result }}</p>
-             </div>
-             {% endif %}
-     
-             <!-- View History Section -->
-             {% if history %}
-             <div class="history-container" style="margin-top: 20px;">
-                 <h2>View History</h2>
-                 <ul>
-                     {% for item in history %}
-                     <li>
-                         <a href="{{ item.image_url }}" target="_blank">{{ item.image_url }}</a>
-                         - Result: {{ item.result }}
-                     </li>
-                     {% endfor %}
-                 </ul>
-             </div>
-             {% endif %}
-         </div>
+    <!-- Footer Section -->
+    <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px;">
+        <div class="bottomBannerContent" style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1000px; margin: 0 auto;">
+            <div class="bottomBannerSection" style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h4 style="color: #fefcce;">About CT-NeuroNet</h4>
+                <p style="color: #fefcce;">CT-NeuroNet leverages AI to analyze CT scans for COVID-19 detection, offering reliable insights for healthcare providers and patients.</p>
+            </div>
+            <div class="bottomBannerSection" style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h4 style="color: #fefcce;">Contact</h4>
+                <p style="color: #fefcce;">Email us at: <a href="mailto:team@ctneuronet.com" style="color: #4CAF50;">team@ctneuronet.com</a></p>
+            </div>
+        </div>
+        <div style="text-align: center; color: #fefcce; margin-top: 20px;">
+            <p>&copy; 2024 CT-NeuroNet. All rights reserved.</p>
+        </div>
+    </div>
          
-
-<!-- History Section in the same index.html or another existing page -->
-<h2>Prediction History</h2>
-<ul>
-    {% for record in prediction_history %}
-        <li>Predicted Class: {{ record.predicted_class }} at {{ record.timestamp }}</li>
-    {% endfor %}
-</ul>
-
-    
-        <script>
-    // Image Preview Logic
-    document.addEventListener('DOMContentLoaded', () => {
-        const fileInput = document.getElementById('file-input');
-        const preview = document.getElementById('image-preview');
-        const uploadForm = document.getElementById('upload-form');
-        
-        fileInput.addEventListener('change', () => {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    preview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Upload Button Functionality
-        document.getElementById('upload-btn').addEventListener('click', () => {
-            const formData = new FormData(uploadForm);
-
-            fetch('/upload_image/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Upload successful:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        });
-
-        // View History Button
-        document.getElementById('view-history-btn').addEventListener('click', function() {
-            fetch('/view_history/')
-                .then(response => response.json())
-                .then(data => {
-                    alert('View History: ' + JSON.stringify(data));
-                });
-        });
-
-        // Resubmit Button
-        document.getElementById('resubmit-btn').addEventListener('click', () => {
-                const formData = new FormData(uploadForm);
-                fetch('/resubmit/', {
-                    method: 'POST',
-                    body: formData,
-                }).then(response => response.json())
-                  .then(data => alert('Resubmitted successfully!'))
-                  .catch(error => console.error(error));
-            });
-
-        // Results Button
-        document.getElementById('results-btn').addEventListener('click', () => {
-                fetch('/results/')
-                    .then(response => response.json())
-                    .then(data => alert('Results: ' + data.result))
-                    .catch(error => console.error(error));
-            });
-        });
-
-</script>
-
-
+<script src="{% static 'Script.js' %}"></script
 </body>
 </html>
