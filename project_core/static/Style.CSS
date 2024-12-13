@@ -1,0 +1,280 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #ffffff;
+  line-height: 1.6;
+  color: #333;
+}
+
+h1, h2, p {
+  margin: 0 0 20px;
+  color: #333;
+}
+
+a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  background-color: #252525;
+  color: #fefcce;
+  font-size: 30px;
+  position: relative;
+  text-align: center;
+}
+
+.header img {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: auto;
+}
+
+.header h1 {
+  color: #fefcce;
+}
+
+.header p {
+  color: #fefcce;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #252525;
+  padding: 10px 20px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  color: #fefcce;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #4CAF50;
+}
+
+/* Uploaded image preview */
+.preview img {
+  max-width: 100%;
+  max-height: 300px;
+  border: 2px solid #4CAF50;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+/* Main Content Styles */
+.content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 40px;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.container h1 {
+  color: #252525;
+  margin-bottom: 20px;
+}
+
+.container p {
+  color: #555;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+/* How It Works & Contact Us Sections */
+.how-it-works, .contact-us {
+  width: 48%;
+  padding: 20px;
+  background-color: #fefcce;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.how-it-works h2, .contact-us h2 {
+  text-align: center;
+  color: #252525;
+}
+
+.how-it-works p, .contact-us p {
+  color: #333;
+}
+
+.left-stanza p {
+  color: #333;
+}
+
+/* Image Upload Section */
+.upload-container {
+  background-color: #f8f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.upload-container h2 {
+  color: #333;
+}
+
+.upload-container input[type="file"] {
+  display: block;
+  margin: 20px auto;
+}
+
+/* Button Styles - Reverted to large, yellow and bold */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-container button {
+  background-color: #fefcce;
+  color: #0a0909;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 30%;
+  transition: background-color 0.2s;
+}
+
+.button-container button:hover {
+  background-color: #02612e;
+  color: #ffffff;
+}
+
+/* Tooltip on hover for button titles */
+.button-container button[title] {
+  position: relative;
+}
+
+.button-container button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fefcce;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* Prediction Classes */
+.likely {
+  color: red;
+  font-weight: bold;
+}
+
+.free {
+  color: green;
+  font-weight: bold;
+}
+
+.covid-tips {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 300px;
+}
+
+/* Slideshow */
+.slideshow-container {
+  position: relative;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.slides {
+  display: none;
+  text-align: center;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+/* Footer */
+.bottomBanner p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .how-it-works, .contact-us {
+      width: 100%;
+  }
+  
+  .button-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .button-container button {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
+
+.btn:hover {
+  background-color: #02612e;
+  color: #fff;
+}

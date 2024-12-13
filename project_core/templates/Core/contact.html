@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Contact CT-NeuroNet</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/CTNeuroNetLogo.png' %}" alt="CT-NeuroNet Logo">
+        <div>
+            <h1>Contact CT-NeuroNet</h1>
+            <p>COVID-19 Detector</p>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'view_history' %}">View History</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/about/">About</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>If you have questions or need assistance, feel free to reach out:</p>
+        <ul style="list-style:none;padding:0;text-align:left;">
+            <li><strong>Email:</strong> <a href="mailto:team@ctneuronet.com">team@ctneuronet.com</a></li>
+            <li><strong>Phone:</strong> +1 (336) 334-7500</li>
+            <li><strong>More Information:</strong> <a href="https://easychair.org/publications/paper/FzLP" target="_blank">Documentation</a></li>
+        </ul>
+    </div>
+
+    <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px; margin-top:40px;">
+        <div class="bottomBannerContent" style="display:flex;justify-content:space-between;flex-wrap:wrap;max-width:1000px;margin:0 auto;">
+            <div class="bottomBannerSection" style="flex:1;min-width:200px;margin-bottom:20px;">
+                <h4 style="color:#fefcce;">About CT-NeuroNet</h4>
+                <p style="color:#fefcce;line-height:1.6;">CT-NeuroNet leverages AI to analyze CT scans...</p>
+            </div>
+            <div class="bottomBannerSection" style="flex:1;min-width:200px;margin-bottom:20px;">
+                <h4 style="color:#fefcce;">Contact</h4>
+                <p style="color:#fefcce;line-height:1.6;">Email us at: <a href="mailto:team@ctneuronet.com" style="color:#4CAF50;">team@ctneuronet.com</a></p>
+            </div>
+        </div>
+        <div style="text-align:center;color:#fefcce;margin-top:20px;">
+            <p>&copy; 2024 CT-NeuroNet. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

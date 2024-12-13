@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About CT-NeuroNet</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Style.css' %}">
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/CTNeuroNetLogo.png' %}" alt="CT-NeuroNet Logo">
+        <div>
+            <h1>CT-NeuroNet: About</h1>
+            <p>COVID-19 Detector</p>
+        </div>
+    </div>
+
+    <!-- Optional Navbar if you have a base template -->
+    <div class="navbar">
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'view_history' %}">View History</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/about/">About</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h1>About This Application</h1>
+        <p>CT-NeuroNet is an innovative tool designed by a dedicated team of researchers and developers. It harnesses cutting-edge convolutional neural networks to assist healthcare professionals and individuals in quickly analyzing CT scans for potential COVID-19 indicators. Our mission is to make advanced medical imaging analysis more accessible and reliable.</p>
+        <p>This platform is part of ongoing research. We value your feedback and contributions as we work towards improving diagnostic efficiency and patient outcomes.</p>
+    </div>
+
+    <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px; margin-top:40px;">
+        <div class="bottomBannerContent" style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width:1000px; margin:0 auto;">
+            <div class="bottomBannerSection" style="flex:1; min-width:200px; margin-bottom:20px;">
+                <h4 style="color:#fefcce;">About CT-NeuroNet</h4>
+                <p style="color:#fefcce;">CT-NeuroNet leverages AI to analyze CT scans for COVID-19 detection, offering insights to healthcare providers and patients.</p>
+            </div>
+            <div class="bottomBannerSection" style="flex:1; min-width:200px; margin-bottom:20px;">
+                <h4 style="color:#fefcce;">Contact</h4>
+                <p style="color:#fefcce;">Email us at: <a href="mailto:team@ctneuronet.com" style="color:#4CAF50;">team@ctneuronet.com</a></p>
+            </div>
+        </div>
+        <div style="text-align:center;color:#fefcce;margin-top:20px;">
+            <p>&copy; 2024 CT-NeuroNet. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

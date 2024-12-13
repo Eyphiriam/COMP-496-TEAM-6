@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT-NeuroNet : Prediction History</title>
+    <!-- Icons and theme -->
+    <link rel="icon" href="{% static 'images/CTNeuroNetLogo.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/CTNeuroNetLogo.png' %}" type="image/png">
+    <!-- Add other icons if needed -->
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'Style.css' %}">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="{% static 'images/CTNeuroNetLogo.png' %}" alt="CT-NeuroNet Logo">
+        <div>
+            <h1>CT-NeuroNet</h1>
+            <p>COVID-19 Detector</p>
+        </div>
+    </div>
+
+    <!-- Slideshow Section (optional) -->
+    <div class="slideshow-container">
+        <div class="slides fade">
+            <img src="{% static 'images/image1.jpg' %}" alt="Slide 1">
+        </div>
+        <div class="slides fade">
+            <img src="{% static 'images/image2.jpg' %}" alt="Slide 2">
+        </div>
+        <div class="slides fade">
+            <img src="{% static 'images/image3.jpg' %}" alt="Slide 3">
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="content" style="flex-direction: column; align-items: center;">
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <h2 style="margin-bottom: 30px;">Prediction History</h2>
+            {% if history %}
+            <ul style="list-style:none; padding:0;">
+                {% for entry in history %}
+                <li style="background:#f8f5f5; margin-bottom:20px; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <a href="{{ entry.image_path.url }}" target="_blank">
+                            <img src="{{ entry.image_path.url }}" alt="Predicted Image" style="max-width:150px; max-height:150px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+                        </a>
+                    </div>
+                    <p><strong>Prediction:</strong> {{ entry.predicted_class }}</p>
+                    <p><strong>Image Path:</strong> <a href="{{ entry.image_path.url }}" target="_blank" style="color:#4CAF50;">{{ entry.image_path.url }}</a></p>
+                    <p><strong>Timestamp:</strong> {{ entry.timestamp|date:"Y-m-d H:i:s" }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No history available. Once you upload images and receive predictions, they'll appear here.</p>
+            {% endif %}
+            
+            <div style="margin-top:30px;">
+                <a href="{% url 'index' %}" class="btn" style="display:inline-block; background:#4CAF50; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none;">
+                    Go back to home page!
+                </a>
+            </div>
+
+    <!-- Footer Section -->
+    <div class="bottomBanner" style="background: #252525; color: #fefcce; padding: 20px; margin-top: 40px;">
+        <div class="bottomBannerContent" style="display: flex; justify-content: space-between; flex-wrap: wrap; max-width: 1000px; margin: 0 auto;">
+            <div class="bottomBannerSection" style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h4 style="color: #fefcce;">About CT-NeuroNet</h4>
+                <p style="color: #fefcce;">CT-NeuroNet leverages AI to analyze CT scans for COVID-19 detection, offering reliable insights for healthcare providers and patients.</p>
+            </div>
+            <div class="bottomBannerSection" style="flex: 1; min-width: 200px; margin-bottom: 20px;">
+                <h4 style="color: #fefcce;">Contact</h4>
+                <p style="color: #fefcce;">Email us at: <a href="mailto:team@ctneuronet.com" style="color: #4CAF50;">team@ctneuronet.com</a></p>
+            </div>
+        </div>
+        <div style="text-align: center; color: #fefcce; margin-top: 20px;">
+            <p>&copy; 2024 CT-NeuroNet. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Include the slideshow and interaction script -->
+    <script src="{% static 'Script.js' %}"></script>
+</body>
+</html>
